@@ -1,0 +1,23 @@
+{
+  "name": "serverless-101",
+  "version": "1.0.0",
+  "description": "AWS User Group Cuneo - Serverless 101",
+  "main": "handler.js",
+  "devDependencies": {
+    "serverless": "^1.39.0",
+    "serverless-plugin-dynamodb": "^1.1.1",
+    "serverless-plugin-static-website": "^1.1.0"
+  },
+  "scripts": {
+    "deploy": "serverless deploy",
+    "deploy:frontend": "serverless deploy frontend",
+    "remove": "serverless remove",
+    "remove:frontend": "serverless remove frontend"
+  },
+  "keywords": [
+    "aws",
+    "serverless"
+  ],
+  "author": "Fabio Gollinucci",
+  "license": "MIT"
+}

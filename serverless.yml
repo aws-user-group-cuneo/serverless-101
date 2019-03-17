@@ -1,0 +1,41 @@
+service: serverless-101
+
+plugins:
+  modules:
+    - serverless-plugin-dynamodb
+    - serverless-plugin-static-website
+
+frameworkVersion: "^1.39.0"
+
+provider:
+  name: aws
+  profile: awsug-serverless-101 #change with your profile
+  runtime: nodejs8.10
+  stage: test
+  region: eu-west-1
+
+custom:
+  frontend: 
+    bucket: ${self:service}-${self:provider.stage} #change this with a different name
+    dir: './frontend'
+    cacheControl: '0'
+    deploy: sync
+  tables:
+    todo:
+      name: ${self:service}-${self:provider.stage}-ToDo
+      primaryKey: 
+        name: id
+        type: 'S'
+      throughput:
+        read: 1
+        write: 1
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+          integration: lambda
+          cors: true
