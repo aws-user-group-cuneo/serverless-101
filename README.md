@@ -58,13 +58,9 @@ npm run deploy
 
 ### 6 - Configure frontend
 
-Change the API endpoint inside `frontend/index.html` inside mounted function;
+Change the API endpoint inside `frontend/index.html` inside script tag;
 ```javascript
-mounted() {
-  axios.get('https://<insert here your API endpoint>/test/hello').then((response) => {
-    this.message = response.data;
-  })
-}
+var ENDPOINT = 'https://xxxxxxx.execute-api.eu-west-1.amazonaws.com/test'; // Change this with your endpoint
 ```
 
 ### 7 - Deploy frontend static website

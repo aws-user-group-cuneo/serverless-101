@@ -1,27 +1,72 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>My Service</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  </head>
-  <body>
-    <div id="app">
-        <pre>{{ message }}</pre>
+
+<head>
+  <meta charset="UTF-8">
+  <title>My Service</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div v-if="loading">Loading</div>
+    <div v-if="!loading && todos.length === 0">No todos</div>
+    <div v-for="todo in todos" :key="todo.id" v-show="!loading">
+      <div>
+        <span>{{ todo.title }}</span>
+        <input type="checkbox" v-model="todo.completed" @change="saveTodo(todo)">
+        <button type="button" @click="deleteTodo(todo)">delete</button>
+      </div>
     </div>
-    <script>
-      var app = new Vue({
-        el: '#app',
-        data: {
-          message: 'Loading..'
+    <form @submit.prevent="createNewTodo">
+      <input :disabled="loading" v-model="newTodo.title" placeholder="Title">
+      <button :disabled="loading" type="submit">create</button>
+    </form>
+  </div>
+  <script>
+    var ENDPOINT = 'https://xxxxxxx.execute-api.eu-west-1.amazonaws.com/test'; // Change this with your endpoint
+    var app = new Vue({
+      el: '#app',
+      data: {
+        loading: true,
+        todos: [],
+        newTodo: {
+          title: ''
+        }
+      },
+      mounted() {
+        this.loadTodos();
+      },
+      methods: {
+        loadTodos() {
+          this.loading = true;
+          axios.get(ENDPOINT + '/todo').then((response) => {
+            this.todos = response.data;
+            this.loading = false;
+          })
         },
-        mounted() {
-          axios.get('https://<insert here your API endpoint>/test/hello').then((response) => {
-            this.message = response.data;
+        createNewTodo() {
+          axios.put(ENDPOINT + '/todo', this.newTodo).then((response) => {
+            this.newTodo = {
+              title: ''
+            }
+            this.loadTodos();
+          })
+        },
+        saveTodo(todo) {
+          axios.post(ENDPOINT + '/todo/' + todo.id, todo).then((response) => {
+            this.loadTodos();
+          })
+        },
+        deleteTodo(todo) {
+          axios.delete(ENDPOINT + '/todo/' + todo.id).then((response) => {
+            this.loadTodos();
           })
         }
-      })
-    </script>
-  </body>
+      }
+    })
+  </script>
+</body>
+
 </html>

@@ -13,6 +13,8 @@ provider:
   runtime: nodejs8.10
   stage: test
   region: eu-west-1
+  environment: 
+    TABLE_TODO: ${self:custom.tables.todo.name}
 
 custom:
   frontend: 
@@ -31,11 +33,35 @@ custom:
         write: 1
 
 functions:
-  hello:
-    handler: handler.hello
+  getTodo:
+    handler: handler.get
     events:
       - http:
-          path: hello
+          path: /todo
           method: get
+          integration: lambda
+          cors: true
+  putTodo:
+    handler: handler.put
+    events:
+      - http:
+          path: /todo
+          method: put
+          integration: lambda
+          cors: true
+  updateTodo:
+    handler: handler.update
+    events:
+      - http:
+          path: /todo/{id}
+          method: post
+          integration: lambda
+          cors: true
+  deleteTodo:
+    handler: handler.delete
+    events:
+      - http:
+          path: /todo/{id}
+          method: delete
           integration: lambda
           cors: true

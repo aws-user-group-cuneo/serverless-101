@@ -19,5 +19,8 @@
     "serverless"
   ],
   "author": "Fabio Gollinucci",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "uuid4": "^1.1.4"
+  }
 }
