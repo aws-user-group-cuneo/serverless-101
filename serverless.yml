@@ -27,7 +27,7 @@ custom:
       name: ${self:service}-${self:provider.stage}-ToDo
       primaryKey: 
         name: id
-        type: 'S'
+        type: 'N'
       throughput:
         read: 1
         write: 1

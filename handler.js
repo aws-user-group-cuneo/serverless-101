@@ -2,7 +2,6 @@
 
 const TABLE_NAME = process.env.TABLE_TODO;
 
-const uuid4 = require('uuid4');
 const AWS = require('aws-sdk');
 AWS.config.logger = console;
 const documentClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
@@ -33,7 +32,7 @@ module.exports.put = async (event, context) => {
   if (newTodo.title === undefined || newTodo.title.trim() === '') {
     throw 'Property title is required';
   }
-  newTodo.id = uuid4();
+  newTodo.id = (new Date().getTime());
 
   await documentClient.put({
     TableName: TABLE_NAME,
@@ -49,7 +48,7 @@ module.exports.update = async (event, context) => {
 
   console.log(JSON.stringify(event));
 
-  const todoId = event.path.id;
+  const todoId = parseInt(event.path.id);
 
   const response = await documentClient.get({
     TableName: TABLE_NAME,
@@ -79,7 +78,7 @@ module.exports.delete = async (event, context) => {
 
   console.log(JSON.stringify(event));
 
-  const todoId = event.path.id;
+  const todoId = parseInt(event.path.id);
 
   const response = await documentClient.get({
     TableName: TABLE_NAME,

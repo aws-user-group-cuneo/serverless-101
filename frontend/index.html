@@ -6,26 +6,51 @@
   <title>My Service</title>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 </head>
 
 <body>
-  <div id="app">
-    <div v-if="loading">Loading</div>
-    <div v-if="!loading && todos.length === 0">No todos</div>
-    <div v-for="todo in todos" :key="todo.id" v-show="!loading">
-      <div>
-        <span>{{ todo.title }}</span>
-        <input type="checkbox" v-model="todo.completed" @change="saveTodo(todo)">
-        <button type="button" @click="deleteTodo(todo)">delete</button>
+  <div class="section" id="app">
+    <div class="columns is-centered">
+      <div class="column is-full-mobile is-half-tablet">
+        <div v-if="!loading && todos.length === 0">No todos</div>
+        <div class="content">
+          <div class="list is-hoverable">
+            <div class="list-item columns" v-for="todo in todos" :key="todo.id">
+              <div class="column">
+                  <input type="checkbox" v-model="todo.completed" @change="saveTodo(todo)">
+              </div>
+              <div class="column is-three-quarters">
+                {{ todo.title }}
+              </div>
+              <div class="column has-text-right">
+                <button class="button has-background-danger has-text-white" type="button" @click="deleteTodo(todo)">delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form @submit.prevent="createNewTodo">
+          <div class="card is-clearfix is-one-third">
+            <div class="card-content">
+              <div class="field">
+                <label class="label">Title</label>
+                <div class="control">
+                  <input class="input" type="text" :disabled="loading" v-model="newTodo.title">
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <button class=" card-footer-item button has-background-primary" :disabled="loading" type="submit">Create new TODO</button>
+          </footer>
+        </form>
       </div>
     </div>
-    <form @submit.prevent="createNewTodo">
-      <input :disabled="loading" v-model="newTodo.title" placeholder="Title">
-      <button :disabled="loading" type="submit">create</button>
-    </form>
   </div>
   <script>
-    var ENDPOINT = 'https://xxxxxxx.execute-api.eu-west-1.amazonaws.com/test'; // Change this with your endpoint
+    var ENDPOINT = 'https://xxxxxxxxx.execute-api.eu-west-1.amazonaws.com/test'; // Change this with your endpoint
     var app = new Vue({
       el: '#app',
       data: {

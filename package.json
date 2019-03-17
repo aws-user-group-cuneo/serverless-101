@@ -20,7 +20,5 @@
   ],
   "author": "Fabio Gollinucci",
   "license": "MIT",
-  "dependencies": {
-    "uuid4": "^1.1.4"
-  }
+  "dependencies": {}
 }
