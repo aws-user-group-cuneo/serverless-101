@@ -16,7 +16,7 @@ Simple Serverless example project to show Lambda/API Gateway/DynamoDB in action.
 ### 1 - Clone this repository
 
 ```bash
-git clone git@<repository name>
+git clone git@github.com:aws-user-group-cuneo/serverless-101.git
 ```
 
 ### 2 - Install NPM dependencies
